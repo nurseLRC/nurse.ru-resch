@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'IBM Plex Sans Thai',sans-serif;
+  background:linear-gradient(135deg,#f5f0ff,#eef3ff);
+  min-height:100vh;
+
+  display:flex;
+  flex-direction:column;   /* ⭐ สำคัญ */
+  align-items:center;
+  justify-content:center;
+
+  padding:24px;
+  color:#1f2440;
+}
+    .card{
+      width:100%;
+      max-width:460px;
+      background:#fff;
+      border-radius:24px;
+      box-shadow:0 16px 40px rgba(50,60,120,.12);
+      padding:28px;
+      animation:fadeIn .35s ease;
+    }
+    .title{
+      font-size:28px;
+      font-weight:700;
+      text-align:center;
+      margin:0 0 6px;
+    }
+    .subtitle{
+      text-align:center;
+      color:#6f7592;
+      margin-bottom:24px;
+      font-size:14px;
+      line-height:1.6;
+    }
+    .hidden{display:none!important}
+    .label{
+      display:block;
+      font-size:14px;
+      font-weight:600;
+      margin:14px 0 8px;
+    }
+    .input{
+      width:100%;
+      height:48px;
+      border-radius:14px;
+      border:1px solid #ddd;
+      padding:0 14px;
+      font-size:15px;
+      background:#fff;
+      outline:none;
+    }
+    .input:focus{
+      border-color:#7a5cff;
+      box-shadow:0 0 0 4px rgba(122,92,255,.10);
+    }
+    .user-box{
+      background:#f6f8ff;
+      border:1px solid #e3e8ff;
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:14px;
+      line-height:1.75;
+      font-size:14px;
+    }
+    .btn{
+      width:100%;
+      height:48px;
+      border:none;
+      border-radius:14px;
+      font-weight:700;
+      margin-top:16px;
+      cursor:pointer;
+      position:relative;
+    }
+    .btn-primary{
+      background:linear-gradient(90deg,#6f42ff,#7f58ff);
+      color:#fff;
+    }
+    .btn-secondary{
+      background:#edf0ff;
+      color:#4d57a8;
+    }
+    .btn-loading{
+      pointer-events:none;
+      opacity:.95;
+      filter:saturate(1.05);
+    }
+    .btn-loading::after{
+      content:'';
+      width:18px;
+      height:18px;
+      border:3px solid rgba(255,255,255,.9);
+      border-top-color:transparent;
+      border-radius:50%;
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-50%);
+      animation:spin .8s linear infinite;
+    }
+    .msg{
+      margin-top:14px;
+      border-radius:14px;
+      padding:12px 14px;
+      font-size:14px;
+      line-height:1.6;
+      display:none;
+    }
+    .msg.show{display:block}
+    .msg.error{background:#fff2f2;color:#b42318;border:1px solid #ffd5d2}
+    .msg.success{background:#f0fff4;color:#087443;border:1px solid #b7ebc6}
+    .msg.info{background:#eef4ff;color:#2456a6;border:1px solid #c8dafc}
+    @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    /*กรอบรูป*/
+.logo-box{
+  margin-bottom:20px;
+  display:flex;
+  justify-content:center;
+}
+
+.logo-box img{
+  transform:translateY(10px);
+  width:100px;
+  height:100px;
+  object-fit:contain;
+  border-radius:50px;
+  box-shadow:0 10px 25px rgba(0,0,0,.12);
+  
+  padding:8px;
+}
+
+    
+  </style>
+</head>
+<body>
+  
+
+
+<div class="card">
+  <div class="card">
+    <div class="logo-box">
+  <img src="logo.png" alt="logo">
+  </div>
+    <div id="stepEmail">
+      <div class="title">ระบบรายงานข้อมูลวิจัย </div>
+         <div class="title">การเผยแพร่งานวิจัย </div>
+     
+      <div class="subtitle">กรอกอีเมลมหาวิทยาลัยเพื่อตรวจสอบบัญชีผู้ใช้</div>
+
+      <label class="label">Email</label>
+      <input id="emailInput" class="input" type="email" placeholder="example@rumail.ru.ac.th">
+
+      <button id="btnCheckEmail" class="btn btn-primary" type="button" onclick="checkEmail(event)">ตรวจสอบบัญชี</button>
+      <div id="emailMsg" class="msg"></div>
+    </div>
+
+    <div id="stepSetPassword" class="hidden">
+      <div class="title">ตั้งรหัสผ่านครั้งแรก</div>
+      <div class="subtitle">บัญชีนี้ยังไม่เคยตั้งรหัสผ่าน กรุณาตั้งรหัสผ่านเพื่อเริ่มใช้งาน</div>
+
+      <div class="user-box">
+        <div><strong>ชื่อ:</strong> <span id="setName">-</span></div>
+        <div><strong>อีเมล:</strong> <span id="setEmail">-</span></div>
+        <div><strong>สิทธิ์:</strong> <span id="setRole">-</span></div>
+      </div>
+
+      <label class="label">รหัสผ่านใหม่</label>
+      <input id="newPassword" class="input" type="password" placeholder="อย่างน้อย 6 ตัวอักษร">
+
+      <label class="label">ยืนยันรหัสผ่าน</label>
+      <input id="confirmPassword" class="input" type="password" placeholder="กรอกรหัสผ่านอีกครั้ง">
+
+      <button id="btnSetPassword" class="btn btn-primary" type="button" onclick="setFirstPassword(event)">บันทึกรหัสผ่าน</button>
+      <button class="btn btn-secondary" type="button" onclick="goBackToEmail()">ย้อนกลับ</button>
+
+      <div id="setPassMsg" class="msg"></div>
+    </div>
+
+    <div id="stepLogin" class="hidden">
+      <div class="title">กรอกรหัสผ่าน</div>
+      <div class="subtitle">บัญชีนี้ตั้งรหัสผ่านแล้ว กรุณาเข้าสู่ระบบ</div>
+
+      <div class="user-box">
+        <div><strong>ชื่อ:</strong> <span id="loginName">-</span></div>
+        <div><strong>อีเมล:</strong> <span id="loginEmail">-</span></div>
+        <div><strong>สิทธิ์:</strong> <span id="loginRole">-</span></div>
+      </div>
+
+      <label class="label">รหัสผ่าน</label>
+      <input id="loginPassword" class="input" type="password" placeholder="กรอกรหัสผ่าน">
+
+      <button id="btnLogin" class="btn btn-primary" type="button" onclick="login(event)">เข้าสู่ระบบ</button>
+      <button class="btn btn-secondary" type="button" onclick="goBackToEmail()">เปลี่ยนอีเมล</button>
+
+      <div id="loginMsg" class="msg"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentEmail = '';
+
+    const CONFIG = {
+      API_BASE: 'https://script.google.com/macros/s/AKfycbw-g3WymkaJ7SXwhTqtZWF9gjM51-LcFHLTYwD0LYTn74UtlB5llbZwUblQjnglz0a4/exec',
+      DASHBOARD_URL: 'dashboard.html'
+    };
+
+    function showStep(stepId) {
+      ['stepEmail','stepSetPassword','stepLogin'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(stepId).classList.remove('hidden');
+    }
+
+    function setMessage(id, text, type='error') {
+      const el = document.getElementById(id);
+      el.textContent = text || '';
+      el.className = 'msg show ' + type;
+    }
+
+    function clearMessage(id) {
+      const el = document.getElementById(id);
+      el.textContent = '';
+      el.className = 'msg';
+    }
+
+    function clearAllMessages() {
+      clearMessage('emailMsg');
+      clearMessage('setPassMsg');
+      clearMessage('loginMsg');
+    }
+
+    function setLoading(btn, text) {
+      if (!btn) return;
+      if (!btn.dataset.originalText) {
+        btn.dataset.originalText = btn.textContent;
+      }
+      btn.textContent = text;
+      btn.classList.add('btn-loading');
+      btn.disabled = true;
+    }
+
+    function resetLoading(btn) {
+      if (!btn) return;
+      btn.textContent = btn.dataset.originalText || btn.textContent;
+      btn.classList.remove('btn-loading');
+      btn.disabled = false;
+    }
+
+    async function apiGet(action, params = {}) {
+      const url = new URL(CONFIG.API_BASE);
+      url.searchParams.set('action', action);
+
+      Object.keys(params).forEach(key => {
+        if (params[key] !== undefined && params[key] !== null) {
+          url.searchParams.set(key, params[key]);
+        }
+      });
+
+      const res = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ');
+      }
+
+      return await res.json();
+    }
+
+    async function apiPost(action, payload = {}) {
+      const res = await fetch(CONFIG.API_BASE, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          action,
+          ...payload
+        })
+      });
+
+      if (!res.ok) {
+        throw new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ');
+      }
+
+      return await res.json();
+    }
+
+    function saveSession(token, profile = {}) {
+      localStorage.setItem('LRC_SESSION_TOKEN', token || '');
+      localStorage.setItem('USER_EMAIL', profile.email || '');
+      localStorage.setItem('USER_NAME', profile.fullName || '');
+      localStorage.setItem('USER_ROLE', profile.role || '');
+    }
+
+    function goDashboard(token) {
+      saveSession(token, {
+        email: currentEmail,
+        fullName: document.getElementById('loginName')?.textContent || document.getElementById('setName')?.textContent || '',
+        role: document.getElementById('loginRole')?.textContent || document.getElementById('setRole')?.textContent || ''
+      });
+      window.location.href = CONFIG.DASHBOARD_URL;
+    }
+
+    async function checkEmail(event) {
+      clearAllMessages();
+      const email = document.getElementById('emailInput').value.trim().toLowerCase();
+      const btn = event.currentTarget;
+
+      if (!email) {
+        setMessage('emailMsg', 'กรุณากรอกอีเมล');
+        return;
+      }
+
+      setLoading(btn, 'กำลังตรวจสอบ...');
+      setMessage('emailMsg', 'กำลังตรวจสอบข้อมูล...', 'info');
+
+      try {
+        const res = await apiGet('checkEmail', { email });
+
+        resetLoading(btn);
+
+        if (!res || !res.ok) {
+          setMessage('emailMsg', res?.message || 'ไม่สามารถตรวจสอบบัญชีได้');
+          return;
+        }
+
+        currentEmail = res.email || email;
+
+        if (res.mustSetPassword) {
+          document.getElementById('setName').textContent = res.fullName || '-';
+          document.getElementById('setEmail').textContent = res.email || '-';
+          document.getElementById('setRole').textContent = res.role || '-';
+          showStep('stepSetPassword');
+        } else {
+          document.getElementById('loginName').textContent = res.fullName || '-';
+          document.getElementById('loginEmail').textContent = res.email || '-';
+          document.getElementById('loginRole').textContent = res.role || '-';
+          showStep('stepLogin');
+        }
+      } catch (err) {
+        resetLoading(btn);
+        setMessage('emailMsg', err?.message || 'เกิดข้อผิดพลาด');
+      }
+    }
+
+    async function setFirstPassword(event) {
+      clearMessage('setPassMsg');
+
+      const password = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const btn = event.currentTarget;
+
+      if (!currentEmail) {
+        setMessage('setPassMsg', 'ไม่พบอีเมลผู้ใช้ กรุณากลับไปเริ่มใหม่');
+        return;
+      }
+
+      setLoading(btn, 'กำลังบันทึก...');
+      setMessage('setPassMsg', 'กำลังบันทึกรหัสผ่าน...', 'info');
+
+      try {
+        const res = await apiPost('setFirstPassword', {
+          email: currentEmail,
+          password,
+          confirmPassword
+        });
+
+        if (!res || !res.ok) {
+          resetLoading(btn);
+          setMessage('setPassMsg', res?.message || 'ไม่สามารถตั้งรหัสผ่านได้');
+          return;
+        }
+
+        document.getElementById('setName').textContent = res.fullName || document.getElementById('setName').textContent;
+        document.getElementById('setRole').textContent = res.role || document.getElementById('setRole').textContent;
+
+        setLoading(btn, 'กำลังเข้าสู่ระบบ...');
+        goDashboard(res.sessionToken);
+      } catch (err) {
+        resetLoading(btn);
+        setMessage('setPassMsg', err?.message || 'เกิดข้อผิดพลาด');
+      }
+    }
+
+    async function login(event) {
+      clearMessage('loginMsg');
+
+      const password = document.getElementById('loginPassword').value;
+      const btn = event.currentTarget;
+
+      if (!currentEmail || !password) {
+        setMessage('loginMsg', 'กรุณากรอกอีเมลและรหัสผ่าน');
+        return;
+      }
+
+      setLoading(btn, 'กำลังเข้าสู่ระบบ...');
+      setMessage('loginMsg', 'กำลังตรวจสอบรหัสผ่าน...', 'info');
+
+      try {
+        const res = await apiPost('login', {
+          email: currentEmail,
+          password
+        });
+
+        if (!res || !res.ok) {
+          resetLoading(btn);
+          setMessage('loginMsg', res?.message || 'เข้าสู่ระบบไม่สำเร็จ');
+          return;
+        }
+
+        document.getElementById('loginName').textContent = res.fullName || document.getElementById('loginName').textContent;
+        document.getElementById('loginRole').textContent = res.role || document.getElementById('loginRole').textContent;
+
+        setLoading(btn, 'กำลังเข้าสู่ระบบ...');
+        goDashboard(res.sessionToken);
+      } catch (err) {
+        resetLoading(btn);
+        setMessage('loginMsg', err?.message || 'เกิดข้อผิดพลาด');
+      }
+    }
+
+    function goBackToEmail() {
+      clearAllMessages();
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+      document.getElementById('loginPassword').value = '';
+      showStep('stepEmail');
+    }
+  </script>
+</body>
+</html>

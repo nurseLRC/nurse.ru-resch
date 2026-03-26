@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>รายงานข้อมูลการเผยแพร่งานวิจัย</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader-box">
+      <div class="spinner"></div>
+      <div class="loader-title">กำลังโหลดระบบ</div>
+      <div class="loader-subtitle">กรุณารอสักครู่...</div>
+    </div>
+  </div>
+
+  <div id="denyView" class="center-view hidden">
+    <div class="auth-card">
+      <div class="auth-badge">!</div>
+      <div class="auth-title">ไม่สามารถเข้าใช้งานได้</div>
+      <div id="denyMessage" class="deny-message">-</div>
+      <div class="auth-actions">
+        <button class="primary-btn" type="button" onclick="goLogin()">กลับหน้า Login</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dashboardView" class="hidden">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+  		<div class="brand-image-box"><img src="logo.png" alt="RU Logo" class="brand-image">
+  		</div>
+
+  		<div class="brand-text">
+    			<div class="brand-title">คณะพยาบาลศาสตร์</div>
+    			<div class="brand-subtitle">Faculty of Nursing</div>
+			<div class="brand-subtitle">Ramkhamhaeng University</div>
+  		</div>
+	</div>
+
+        <div class="user-card">
+          <div class="user-name" id="userName">-</div>
+          <div class="user-email" id="userEmail">-</div>
+          <div class="user-role" id="userRole">-</div>
+        </div>
+
+        <nav class="menu" id="dynamicMenu"></nav>
+
+        <div class="menu fixed-menu">
+          <button class="menu-btn" type="button" onclick="refreshCurrentReport()">⟳ รีเฟรชรายงาน</button>
+          <button class="menu-btn" type="button" onclick="logoutNow()">🚪 ออกจากระบบ</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <div class="page-title">Dashboard รายงานข้อมูลการเผยแพร่งานวิจัย</div>
+            <div class="page-subtitle">รายงานจะแสดงตาม ROLE จากระบบของคุณ</div>
+          </div>
+        </header>
+
+        <section class="cards-row">
+          <div class="info-card">
+            <div class="info-label">ชื่อผู้ใช้</div>
+            <div class="info-value" id="summaryName">-</div>
+          </div>
+          <div class="info-card">
+            <div class="info-label">สิทธิ์</div>
+            <div class="info-value" id="summaryRole">-</div>
+          </div>
+          <div class="info-card">
+            <div class="info-label">เวลาโหลดระบบ</div>
+            <div class="info-value" id="summaryTime">-</div>
+          </div>
+        </section>
+
+        <section class="content-card">
+          <div class="content-header">
+            <div>
+              <div class="content-title" id="reportTitle">รายงาน</div>
+              <div class="content-subtitle" id="reportSubtitle">-</div>
+            </div>
+          </div>
+
+          <div class="iframe-note" id="iframeNote">กำลังเตรียมรายงาน...</div>
+
+          <div class="iframe-wrap hidden" id="reportFrameWrap">
+            <iframe id="lookerFrame" title="Looker Studio Dashboard" src="" allowfullscreen></iframe>
+          </div>
+
+          <div class="empty-box hidden" id="emptyBox">
+            ยังไม่มีรายงานสำหรับ role นี้
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
