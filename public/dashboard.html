@@ -3,111 +3,325 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>รายงานข้อมูลการเผยแพร่งานวิจัย</title>
-
+  <title>สารสนเทศบุคลากร</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-    <link rel="stylesheet" href="styles.css?v=3">
+    body{
+      margin:0;
+      font-family:'IBM Plex Sans Thai',sans-serif;
+      background:linear-gradient(180deg,#7d27b8 0%, #5b2bb7 55%, #7a1fb2 100%);
+      min-height:100vh;
+      color:#fff;
+    }
+
+    .page{
+      width:100%;
+      max-width:1200px;
+      margin:0 auto;
+      padding:28px 20px 40px;
+    }
+
+    .hero{
+      text-align:center;
+      padding:14px 0 26px;
+    }
+
+    .hero-logo{
+      width:90px;
+      height:90px;
+      margin:0 auto 14px;
+   		border-radius:50px;  /* ทำให้ดู modern */
+  		box-shadow:0 8px 20px rgba(0,0,0,.08);
+      padding:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      backdrop-filter:blur(4px);
+    }
+
+    .hero-logo img{
+      width:72px;
+      height:72px;
+      object-fit:contain;
+      display:block;
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:52px;
+      line-height:1.2;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    .hero p{
+      margin:12px auto 0;
+      max-width:760px;
+      font-size:22px;
+      line-height:1.7;
+      color:rgba(255,255,255,.92);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:24px;
+      margin-top:18px;
+    }
+
+    .card{
+      background:#fff;
+      color:#1f2440;
+      border-radius:26px;
+      min-height:320px;
+      padding:26px 22px 24px;
+      box-shadow:0 18px 40px rgba(24,15,63,.18);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      justify-content:flex-start;
+    }
+
+    .card-icon{
+      width:84px;
+      height:84px;
+      border-radius:22px;
+      background:#f4f0ff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:18px;
+      font-size:38px;
+    }
+
+    .card-icon img{
+      width:58px;
+      height:58px;
+      object-fit:contain;
+      display:block;
+    }
+
+    .card-title{
+      font-size:34px;
+      line-height:1.3;
+      font-weight:700;
+      color:#4e2acb;
+      margin-bottom:10px;
+      min-height:88px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .card-desc{
+      font-size:20px;
+      line-height:1.8;
+      color:#5c627d;
+      min-height:96px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:18px;
+    }
+
+    .card-actions{
+      margin-top:auto;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:170px;
+      padding:14px 28px;
+      border-radius:999px;
+      text-decoration:none;
+      font-size:22px;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      transition:transform .08s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn:active{
+      transform:scale(.98);
+    }
+
+    .btn-primary{
+      background:#7a28c9;
+      color:#fff;
+      box-shadow:0 10px 20px rgba(122,40,201,.24);
+    }
+
+    .btn-soft{
+      background:#ece8ff;
+      color:#5a2fd4;
+    }
+
+    .footer{
+      text-align:center;
+      padding:40px 0 8px;
+      font-size:18px;
+      color:rgba(255,255,255,.9);
+    }
+
+    @media (max-width:1080px){
+      .hero h1{
+        font-size:42px;
+      }
+
+      .hero p{
+        font-size:20px;
+      }
+
+      .grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width:720px){
+      .page{
+        padding:20px 16px 30px;
+      }
+
+      .hero-logo{
+        width:74px;
+        height:74px;
+      }
+
+      .hero-logo img{
+        width:58px;
+        height:58px;
+      }
+
+      .hero h1{
+        font-size:34px;
+      }
+
+      .hero p{
+        font-size:17px;
+      }
+
+      .grid{
+        grid-template-columns:1fr;
+        gap:18px;
+      }
+
+      .card{
+        min-height:auto;
+      }
+
+      .card-title{
+        font-size:28px;
+        min-height:auto;
+      }
+
+      .card-desc{
+        font-size:17px;
+        min-height:auto;
+      }
+
+      .btn{
+        min-width:150px;
+        font-size:18px;
+      }
+
+      .footer{
+        font-size:15px;
+      }
+    }
+  </style>
 </head>
 <body>
-
-  <div id="loadingOverlay" class="loading-overlay">
-    <div class="loader-box">
-      <div class="spinner"></div>
-      <div class="loader-title">กำลังโหลดระบบ</div>
-      <div class="loader-subtitle">กรุณารอสักครู่...</div>
-    </div>
-  </div>
-
-  <div id="denyView" class="center-view hidden">
-    <div class="auth-card">
-      <div class="auth-badge">!</div>
-      <div class="auth-title">ไม่สามารถเข้าใช้งานได้</div>
-      <div id="denyMessage" class="deny-message">-</div>
-      <div class="auth-actions">
-        <button class="primary-btn" type="button" onclick="goLogin()">กลับหน้า Login</button>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-logo">
+        <img src="logo.png" alt="ตราสัญลักษณ์คณะพยาบาลศาสตร์">
       </div>
+      <h1>สารสนเทศบุคลากร</h1>
+      <p>คณะพยาบาลศาสตร์ มหาวิทยาลัยรามคำแหง</p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="card-icon">
+          <img src="logo.png" alt="ตราคณะ">
+        </div>
+        <div class="card-title">ระบบรายงานครุภัณฑ์</div>
+        <div class="card-title">ห้องฝึกปฏิบัติการพยาบาล</div>
+        <div class="card-desc">
+          สำหรับเข้าสู่ระบบและใช้งานสารสนเทศของบุคลากรภายในคณะ
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="login.html">เข้าใช้งาน</a>
+        </div>
+      </div>
+
+
+      <div class="card">
+        <div class="card-icon">🧩</div>
+        <div class="card-title">AppSheet ทะเบียนครุภัณฑ์และวัสดุ LRC</div>
+        <div class="card-desc">
+          เชื่อมต่อไปยังระบบปฏิบัติงานที่พัฒนาด้วย AppSheet
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="https://www.appsheet.com/start/4d90d462-9146-4164-b100-37cb7cac85be" target="_blank" rel="noopener noreferrer">เข้าใช้งาน</a>
+        </div>
+      </div>
+
+
+
+   <div class="card">
+        <div class="card-icon">
+          <img src="logo.png" alt="ตราคณะ">
+        </div>
+        <div class="card-title">รายงานข้อมูลวิจัย</div>
+        <div class="card-title">และการเผยแพร่</div>
+        <div class="card-desc">
+          สำหรับเข้าสู่ระบบและใช้งานสารสนเทศของบุคลากรภายในคณะ
+        </div>
+        <div class="card-actions">
+           <a class="btn btn-primary" 
+                 href="https://ru-nurse-research.web.app/login.html" 
+             target="_self">
+           เข้าใช้งาน
+        </a>
+      </div>
+   </div>
+
+
+      <div class="card">
+        <div class="card-icon">📘</div>
+        <div class="card-title">คู่มือการใช้งาน</div>
+        <div class="card-desc">
+          ใช้สำหรับรวมลิงก์เอกสาร คู่มือ หรือหน้าคำแนะนำการใช้งานภายใน
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-soft" href="#">เร็ว ๆ นี้</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      © 2026 สารสนเทศบุคลากร | Faculty of Nursing, Ramkhamhaeng University
     </div>
   </div>
-
-  <div id="dashboardView" class="hidden">
-    <div class="app-shell">
-      <aside class="sidebar">
-        <div class="brand">
-  		<div class="brand-image-box"><img src="logo.png" alt="RU Logo" class="brand-image">
-  		</div>
-
-  		<div class="brand-text">
-    			<div class="brand-title">
-					คณะพยาบาลศาสตร์
-				</div>
-    			<div class="brand-subtitle">
-					Faculty of Nursing
-				</div>
-			<div class="brand-subtitle">Ramkhamhaeng University</div>
-  		</div>
-	</div>
-
-        <div class="user-card">
-          <div class="user-name" id="userName">-</div>
-          <div class="user-email" id="userEmail">-</div>
-          <div class="user-role" id="userRole">-</div>
-        </div>
-
-        <nav class="menu" id="dynamicMenu"></nav>
-
-        <div class="menu fixed-menu">
-          <button class="menu-btn" type="button" onclick="refreshCurrentReport()">⟳ รีเฟรชรายงาน</button>
-          <button class="menu-btn" type="button" onclick="logoutNow()">🚪 ออกจากระบบ</button>
-        </div>
-      </aside>
-
-      <main class="main">
-        <header class="topbar">
-          <div>
-            <div class="page-title">Dashboard รายงานข้อมูลการเผยแพร่งานวิจัย</div>
-            <div class="page-subtitle">รายงานจะแสดงตาม ROLE จากระบบของคุณ</div>
-          </div>
-        </header>
-
-        <section class="cards-row">
-          <div class="info-card">
-            <div class="info-label">ชื่อผู้ใช้</div>
-            <div class="info-value" id="summaryName">-</div>
-          </div>
-          <div class="info-card">
-            <div class="info-label">สิทธิ์</div>
-            <div class="info-value" id="summaryRole">-</div>
-          </div>
-          <div class="info-card">
-            <div class="info-label">เวลาโหลดระบบ</div>
-            <div class="info-value" id="summaryTime">-</div>
-          </div>
-        </section>
-
-        <section class="content-card">
-          <div class="content-header">
-            <div>
-              <div class="content-title" id="reportTitle">รายงาน</div>
-              <div class="content-subtitle" id="reportSubtitle">-</div>
-            </div>
-          </div>
-
-
-          <div class="iframe-wrap hidden" id="reportFrameWrap">
-            <iframe id="lookerFrame" title="Looker Studio Dashboard" src="" allowfullscreen></iframe>
-          </div>
-          <div class="iframe-note" id="iframeNote">กำลังเตรียมรายงาน...</div>
-          <div class="empty-box hidden" id="emptyBox">
-            ยังไม่มีรายงานสำหรับ role นี้
-          </div>
-        </section>
-      </main>
-    </div>
-  </div>
-
-  <script src="scripts.js"></script>
 </body>
 </html>
