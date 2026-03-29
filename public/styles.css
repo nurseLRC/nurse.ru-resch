@@ -390,3 +390,14 @@ html,body{
   object-fit:contain;
   display:block;
 }
+/* 🔽 note ด้านล่าง */
+#iframeNoteBottom{
+  margin-top:12px;
+  text-align:center;
+  font-size:12px;
+  color:#888;
+  background:#f6f7ff;
+  padding:6px 10px;
+  border-radius:10px;
+  border:1px solid var(--line);
+}
